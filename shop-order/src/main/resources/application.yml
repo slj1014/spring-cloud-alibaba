@@ -1,0 +1,49 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: service-order
+  zipkin:
+    base-url: http://127.0.0.1:9411/  #zipkin server的请求地址
+    discoveryClientEnabled: false #让nacos把它当成一个URL，而不要当做服务名
+  sleuth:
+    sampler:
+      probability: 1.0  #采样的百分比
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shop?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        port: 9999 #跟控制台交流的端口,随意指定一个未使用的端口即可
+        dashboard: localhost:8080 # 指定控制台服务的地址
+
+service-product: # 调用的提供者的名称
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+
+
+# 开启feign对sentinel的支持
+feign:
+  sentinel:
+    enabled: true
+
+#rocketmq 依赖
+rocketmq:
+  name-server: 192.168.1.110:9876 #rocketMQ服务的地址 producer:
+  producer:
+    group: shop-order # 生产者组

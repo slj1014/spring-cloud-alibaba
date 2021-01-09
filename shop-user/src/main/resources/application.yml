@@ -1,0 +1,23 @@
+server:
+  port: 8071
+spring:
+  application:
+    name: service-user
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shop?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+#rocketmq 依赖
+rocketmq:
+  name-server: 192.168.1.110:9876 #rocketMQ服务的地址 producer:
